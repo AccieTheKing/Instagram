@@ -3,7 +3,7 @@
 /**
  * This class will contain the received data from the scraper
  * 
- * @author Acdaling Edusei - https://insta.acdaling.nl/
+ * @author Acdaling Edusei - https://instagram.acdaling.nl/api/?username=<USERNAME>
  */
 
 /**

@@ -3,10 +3,8 @@
 /** 
  * This class will initialize all the needing classes for scraping the data 
  *
- * @author Acdaling Edusei - https://insta.acdaling.nl/
+ * @author Acdaling Edusei - https://instagram.acdaling.nl/api/?username=<USERNAME>
  */
-
-
 
 
 /**

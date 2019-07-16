@@ -4,7 +4,7 @@
  * 
  * This class will be represented as users Instagram
  * 
- * @author Acdaling Edusei - https://insta.acdaling.nl/
+ * @author Acdaling Edusei - https://instagram.acdaling.nl/api/?username=<USERNAME>
  */
 
 class User
