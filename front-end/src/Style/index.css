@@ -1,12 +1,78 @@
-* {
-  padding: 0px;
-  margin: 0px;
+/** 
+* IMPORT STYLES & GLOBAL VARIABLES
+*/
+/** 
+* IMPORT FOR VARIABLES
+*/
+/** 
+*  COLORS
+*/
+/** 
+*  IMAGES
+*/
+.text-bold {
+  font-weight: 800;
 }
 
-#root {
+/** 
+* IMPORTS FOR PAGES
+*/
+#home_page {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: url("../Img/homepage-background-.jpg") no-repeat center center;
+  background-size: cover;
 }
 
+#home_page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.64);
+  z-index: 0;
+}
+
+#home_page.animation-container {
+  height: calc(100vh - 8vw);
+  margin: 4vw;
+  -webkit-transition: all ease 5s;
+  transition: all ease 5s;
+}
+
+#home_page header {
+  color: #fff;
+  padding-top: 30px;
+  z-index: 2;
+}
+
+#home_page header h1 {
+  font-size: 4.5rem;
+}
+
+@media (max-width: 768px) {
+  #home_page header h1 {
+    font-size: 2.5rem;
+  }
+}
+
+#home_page header a {
+  color: #fff;
+}
+
+/**
+* #
+*/
 #header {
   position: -webkit-sticky;
   position: sticky;
@@ -123,11 +189,47 @@
   display: none;
 }
 
-#home_page main {
-  padding-top: 30px;
+#profile_page #profilePage-header {
+  padding-top: 60px;
 }
 
-#home_page main article.card {
+#profile_page #profilePage-header img.profilePicture {
+  border-radius: 100%;
+  height: 150px;
+  width: 150px;
+}
+
+#profile_page #profilePage-header .profile-detail {
+  font-size: 16px;
+  line-height: 25px;
+  word-wrap: break-word;
+}
+
+@media (min-width: 800px) {
+  #profile_page #profilePage-header .profile-detail {
+    margin-top: -50px;
+  }
+}
+
+#profile_page #profilePage-header .profile-detail p {
+  margin: 0;
+}
+
+#profile_page #profilePage-header .profile-detail span {
+  white-space: pre-line;
+}
+
+#profile_page .post-banner {
+  display: block;
+  height: 100%;
+  width: 100%;
+  max-height: 293px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: 30px;
+}
+
+#profile_page article.card {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -140,62 +242,62 @@
           flex-direction: row;
   margin-bottom: 60px;
   /**
-        Postcontainer -
-
-        Container where the content of the user is getting in
-    */
+          Postcontainer -
+  
+          Container where the content of the user is getting in
+      */
   /**
-        Content container - 
-
-        Here comes the reactions of the people who react under a post
-    */
+          Content container - 
+  
+          Here comes the reactions of the people who react under a post
+      */
 }
 
-#home_page main article.card header {
+#profile_page article.card header {
   margin: 0px -15px;
 }
 
-#home_page main article.card a {
+#profile_page article.card a {
   color: #262626;
   text-decoration: none;
 }
 
-#home_page main article.card .username-badge {
+#profile_page article.card .username-badge {
   font-weight: 500;
 }
 
-#home_page main article.card .profile-pic-container {
+#profile_page article.card .profile-pic-container {
   overflow: hidden;
   margin-right: 15px;
 }
 
-#home_page main article.card .profile-pic-container img {
+#profile_page article.card .profile-pic-container img {
   border-radius: 50%;
   width: 32px;
   height: 32px;
 }
 
-#home_page main article.card .post-container {
+#profile_page article.card .post-container {
   -webkit-box-flex: 2;
       -ms-flex: 2;
           flex: 2;
 }
 
-#home_page main article.card .content-container {
+#profile_page article.card .content-container {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   padding: 0px 15px;
 }
 
-#home_page main article.card .content-container .reactions-container {
+#profile_page article.card .content-container .reactions-container {
   overflow: auto;
   margin: 0 -15px 0 0;
   padding: 15px 15px 0 0;
   max-height: 385px;
 }
 
-#home_page main article.card .content-container .reactions-container .reaction {
+#profile_page article.card .content-container .reactions-container .reaction {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -205,7 +307,7 @@
           flex-direction: row;
 }
 
-#home_page main article.card .content-container .reactions-container .reaction .profile-pic-container {
+#profile_page article.card .content-container .reactions-container .reaction .profile-pic-container {
   -webkit-box-flex: 2;
       -ms-flex: 2;
           flex: 2;
@@ -213,9 +315,18 @@
   max-width: 32px;
 }
 
-#home_page main article.card .content-container .reactions-container .reaction p {
+#profile_page article.card .content-container .reactions-container .reaction p {
   -webkit-box-flex: 8;
       -ms-flex: 8;
           flex: 8;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+#root {
+  position: relative;
 }
 /*# sourceMappingURL=index.css.map */
