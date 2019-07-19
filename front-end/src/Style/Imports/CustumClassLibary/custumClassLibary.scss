@@ -1,3 +1,16 @@
+.switch-wrapper {
+  position: relative;
+}
+
+.switch-wrapper > div {
+  position: absolute;
+  width: 100%;
+}
+
 .text-bold {
   font-weight: 800;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
 }

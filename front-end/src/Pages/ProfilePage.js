@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ProfileHeader from './Components/ProfileHeader';
-import ContentBanner from './Components/ContentBanner';
+import ContentCard from './Components/ContentCard';
+import ProfilepagePlaceholder from './Components/ProfilepagePlaceholder';
 
 class ProfilePage extends Component {
 
@@ -11,7 +12,8 @@ class ProfilePage extends Component {
 
         this.state = {
             userData: '',
-            userMedia: ''
+            userMedia: '',
+            searched: false
         }
 
     }
@@ -23,13 +25,13 @@ class ProfilePage extends Component {
         event.preventDefault();
         let searchField = document.querySelector('input');
 
-        axios(`https://test.acdaling.nl/api/?username=${searchField.value}`)
+        axios(`https://instagram.acdaling.nl/api/?username=${searchField.value}`)
             .then((response) => {
                 this.setState({
                     userData: response.data.userData,
-                    userMedia: response.data.media
+                    userMedia: response.data.media,
+                    searched: true
                 });
-                console.log(response);
             });
     }
 
@@ -38,7 +40,7 @@ class ProfilePage extends Component {
         let userData = this.state.userData;
         let userMedia = this.state.userMedia;
         let posts;
-
+        
         /**
          * This needs to be patched
          * 
@@ -47,7 +49,7 @@ class ProfilePage extends Component {
         if (userMedia.length > 0) {
 
             posts = userMedia.map((media) => {
-                return <ContentBanner node={media.node} key={media.node.id} />
+                return <ContentCard img={media} user={userData} key={media.node.id} />
             });
 
         } else {
@@ -62,6 +64,7 @@ class ProfilePage extends Component {
 
         return (
             <Fragment>
+                {/* THE HEADER */}
                 <nav id="header" className="navbar navbar-light bg-light">
                     <form onSubmit={this.submit.bind(this)} className="container">
                         <div className="row">
@@ -87,14 +90,22 @@ class ProfilePage extends Component {
                         </div>
                     </form>
                 </nav >
+                {/* END OF THE HEADER */}
+                {/* PROFILE PAGE */}
                 <div id="profile_page">
-                    <ProfileHeader userdata={userData} />
-                    <div className="container">
-                        <div className="row">
-                            {posts}
+                    {this.state.searched ? (
+                        <div>
+                            <ProfileHeader userdata={userData} />
+                            <div className="container">
+                                <div className="row">
+                                    {posts}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    ) : (<ProfilepagePlaceholder />)
+                    }
                 </div>
+                {/* END OF THE PROFILE PAGE */}
             </Fragment>
         )
     }
