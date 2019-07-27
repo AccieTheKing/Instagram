@@ -8,8 +8,8 @@ import Article from './Article';
 const ContentCard = (props) => {
     let data = props.img.node;
     let user = props.user;
-    console.log("ContentCard data", data,
-        "ContentCard user ", user);
+    // console.log("ContentCard data", data,
+    //     "ContentCard user ", user);
 
     return (
         <Fragment>

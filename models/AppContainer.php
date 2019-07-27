@@ -67,7 +67,26 @@ class AppContainer
                 $media = file_get_contents($postUrl); // get all media content from $postUrl
                 $content = json_decode($media); // decode json 
 
-                $this->user->setPosts($content->data->user->edge_owner_to_timeline_media->edges);//stores new scraped data for later use
+                $this->user->setPosts($content->data->user->edge_owner_to_timeline_media->edges); //stores new scraped data for later use
+            }
+        }
+    }
+
+    /**
+     * Getting the comments of the posted media
+     */
+    private function getComments($shortcode)
+    {
+        $data = file_get_contents($this->url . 'p/' . $shortcode);
+
+        if (preg_match('/window._sharedData = (.*?)script>/s', $data, $dataArray)) {
+            $validJson =  substr($dataArray[1], 0, -3);
+            $dataComments = json_decode($validJson);
+
+            $comments = $dataComments->entry_data->PostPage[0]->graphql->shortcode_media->edge_media_to_parent_comment->edges;
+
+            if (isset($comments) && count($comments) > 0) {
+                return $comments; // returns comments form the given code
             }
         }
     }
@@ -77,7 +96,25 @@ class AppContainer
      */
     public function getMedia()
     {
+        $posts = $this->user->getPosts(); //'All' the posts
+        $postArray = []; // will store the posts and their comments
+
+        foreach ($posts as $post) {
+            $shortcode = $post->node->shortcode;
+            $comment = $this->getComments($shortcode);
+            $assembledPost = [];
+
+            $assembledPost[] = [
+                "node" => $post->node,
+                "comments" => $comment
+            ];
+
+            $postArray[] = $assembledPost;
+        }
+
+
         $userdata = [
+
             "userData" => [
 
                 "profilePicture" => $this->user->getProfilePicture(),
@@ -90,7 +127,8 @@ class AppContainer
                 "website" => $this->user->getWebsiteInBio(),
 
             ],
-            "media" => $this->user->getPosts()
+            "media" => $postArray
+
         ];
 
         return json_encode($userdata);
