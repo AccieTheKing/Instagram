@@ -93,6 +93,8 @@ class AppContainer
 
     /**
      * get media
+     * 
+     * This function will add the comments to their post
      */
     public function getMedia()
     {
@@ -102,14 +104,11 @@ class AppContainer
         foreach ($posts as $post) {
             $shortcode = $post->node->shortcode;
             $comment = $this->getComments($shortcode);
-            $assembledPost = [];
 
-            $assembledPost[] = [
+            $postArray[] =  [
                 "node" => $post->node,
                 "comments" => $comment
             ];
-
-            $postArray[] = $assembledPost;
         }
 
 

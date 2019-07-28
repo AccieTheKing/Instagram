@@ -1,10 +1,16 @@
 import React from 'react';
 
-export const ArticleReaction = (props) => {
-    let userPicture = props.picture;//user's profile picture
-    let caption = props.userCaption;
 
-    // console.log(props.id)
+/**
+ * This is a class that will be representing the comments 
+ * added to posts
+ * 
+ * @param {*} props 
+ */
+const ArticleReaction = (props) => {
+    let username = props.username;//username
+    let userPicture = props.picture;//user's profile picture
+    let caption = props.caption;//content of the comment
 
     return (
         <div>
@@ -13,10 +19,12 @@ export const ArticleReaction = (props) => {
                     className="profile-pic" />
             </span>
             <p>
-                <span className="username-badge">{}</span>
+                <span className="username-badge">{username}</span>
                 {caption}
             </p>
 
         </div>
     )
 }
+
+export default ArticleReaction;

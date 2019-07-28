@@ -70,6 +70,7 @@
 
     .username-badge {
       font-weight: 500;
+      margin-right: 5px;
     }
 
     //profile picture
@@ -110,7 +111,7 @@
         overflow: auto;
         padding: 15px 15px 0 0;
 
-        .reaction-conainer > div {
+        &> div {
           display: flex;
           flex-direction: row;
 
