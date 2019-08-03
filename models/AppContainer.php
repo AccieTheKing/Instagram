@@ -13,9 +13,8 @@ include 'User.php';
 
 class AppContainer
 {
-    private $user; //user wich data will be scraped
-    private $url; //url of the website that is being scraped
-
+    private $user;//user wich data will be scraped
+    private $url = "https://www.instagram.com/"; //url of the website that is being scraped
 
     /**
      * Constuctor
@@ -27,7 +26,6 @@ class AppContainer
         $this->url = 'https://www.instagram.com/';
         $this->user = new User($username);
     }
-
 
     /**
      * Starts the proces of scraping the data of the specific user
@@ -63,7 +61,7 @@ class AppContainer
                 $userPostsTimeLine = $userProfilePage->edge_owner_to_timeline_media; //short variable for accessing the
                 $this->user->setMediaCount($userPostsTimeLine->count); //sets the number of total pictures
 
-                $postUrl = 'https://instagram.com/graphql/query/?query_id=17888483320059182&id=' . $this->user->getId() . '&first=1500&after=' . $userPostsTimeLine->page_info->end_cursor; // new url for fetching more media
+                $postUrl = 'https://instagram.com/graphql/query/?query_id=17888483320059182&id=' . $this->user->getId() . '&first=50&after=' . $userPostsTimeLine->page_info->end_cursor; // new url for fetching more media
                 $media = file_get_contents($postUrl); // get all media content from $postUrl
                 $content = json_decode($media); // decode json 
 
@@ -73,49 +71,17 @@ class AppContainer
     }
 
     /**
-     * Getting the comments of the posted media
-     */
-    private function getComments($shortcode)
-    {
-        $data = file_get_contents($this->url . 'p/' . $shortcode);
-
-        if (preg_match('/window._sharedData = (.*?)script>/s', $data, $dataArray)) {
-            $validJson =  substr($dataArray[1], 0, -3);
-            $dataComments = json_decode($validJson);
-
-            $comments = $dataComments->entry_data->PostPage[0]->graphql->shortcode_media->edge_media_to_parent_comment->edges;
-
-            if (isset($comments) && count($comments) > 0) {
-                return $comments; // returns comments form the given code
-            }
-        }
-    }
-
-    /**
      * get media
      * 
      * This function will add the comments to their post
      */
-    public function getMedia()
+    public function getUserdata()
     {
-        $posts = $this->user->getPosts(); //'All' the posts
-        $postArray = []; // will store the posts and their comments
-
-        foreach ($posts as $post) {
-            $shortcode = $post->node->shortcode;
-            $comment = $this->getComments($shortcode);
-
-            $postArray[] =  [
-                "node" => $post->node,
-                "comments" => $comment
-            ];
-        }
-
-
         $userdata = [
 
             "userData" => [
 
+                "id" => $this->user->getId(),
                 "profilePicture" => $this->user->getProfilePicture(),
                 "username" => $this->user->getUsername(),
                 "fullName" => $this->user->getFullName(),
@@ -125,11 +91,52 @@ class AppContainer
                 "mediaCount" => $this->user->getMediaCount(),
                 "website" => $this->user->getWebsiteInBio(),
 
-            ],
-            "media" => $postArray
-
+            ]
         ];
 
         return json_encode($userdata);
+    }
+
+    /**
+     * The posts of a user
+     */
+    public function getPosts()
+    {
+        return json_encode($this->user->getPosts()); //'All' the posts
+    }
+
+    /**
+     * Getting the video url
+     */
+    public function getVideo($shortcode)
+    {
+        $data = file_get_contents($this->url . 'p/' . $shortcode);
+
+        if (preg_match('/window._sharedData = (.*?)script>/s', $data, $dataArray)) {
+            $validJson =  substr($dataArray[1], 0, -3);
+            $dataComments = json_decode($validJson);
+
+            $videoSource = $dataComments->entry_data->PostPage[0]->graphql->shortcode_media->video_url; //shortner
+
+            return json_encode($videoSource);
+        }
+    }
+
+    /**
+     * Getting the comments
+     */
+    public function getComments($shortcode)
+    {
+        $data = file_get_contents($this->url . 'p/' . $shortcode);
+
+        if (preg_match('/window._sharedData = (.*?)script>/s', $data, $dataArray)) {
+            $validJson =  substr($dataArray[1], 0, -3);
+            $dataComments = json_decode($validJson);
+
+            $commentSource = $dataComments->entry_data->PostPage[0]->graphql->shortcode_media->edge_media_to_parent_comment; //shortner
+            $comments = $commentSource->edges; //array of the comments
+
+            return json_encode($comments);
+        }
     }
 }

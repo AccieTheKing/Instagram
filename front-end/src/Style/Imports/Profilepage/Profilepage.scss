@@ -102,27 +102,29 @@
     .content-container {
       position: relative;
       flex: 1 1;
-      padding: 66px 15px;
+      padding: 66px 0px 15px 15px;
 
       .reactions-container {
         position: absolute;
-        top: 60px;
+        top: 65px;
         bottom: 60px;
         overflow: auto;
         padding: 15px 15px 0 0;
+        max-width: 260px;
 
         &> div {
           display: flex;
           flex-direction: row;
 
           .profile-pic-container {
-            flex: 2;
-            max-height: 32px;
-            max-width: 32px;
+            flex: 10%;
+            height: 32px;
+            width: 32px
           }
 
           p {
-            flex: 8;
+            flex: 90%;
+            max-width: 80%;
           }
         }
       }

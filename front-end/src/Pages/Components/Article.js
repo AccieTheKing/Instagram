@@ -1,7 +1,5 @@
 import React from 'react';
-import ArticleReaction from './ArticleReaction';
-
-
+import { default as Reaction } from './ArticleReaction';
 
 /**
  * This component is responsible for showing a larger version of the picture 
@@ -12,9 +10,11 @@ import ArticleReaction from './ArticleReaction';
 function Article(props) {
     let post = props.post;
     let user = props.userData;
-    let postComments = props.comments;
+    let postCaption = props.postCaption;//caption of the user giving by the post
+    let postComments = props.comments;//comments for the picture
+    let videoURL = props.videoURL;//url for video's
     let timePost = new Date(post.taken_at_timestamp * 1000).toLocaleDateString();// Date that the post was added to Instagram
-    let comment = "No comments found";
+    let comment = "no further comment found";//placeholder when there is no comment
 
     /**
      * Load the comments into a component
@@ -22,7 +22,11 @@ function Article(props) {
     if (postComments && postComments.length > 0) {
         comment = postComments.map((el) => {
             let element = el.node;//shortner
-            return <ArticleReaction picture={element.owner.profile_pic_url} username={element.owner.username} caption={element.text} key={element.id} />
+
+            /**
+             * Return comments 
+             */
+            return <Reaction picture={element.owner.profile_pic_url} username={element.owner.username} caption={element.text} key={element.id} />
         });
     }
 
@@ -32,8 +36,15 @@ function Article(props) {
                 <div className="modal-content">
                     <article className="card">
                         <div className="post-container">
-                            <img src={post.display_url}
-                                className="card-img" alt="post" />
+                            {videoURL ? (
+                                <video controls className="card-img" alt="post">
+                                    <source src={videoURL} />
+                                </video>
+                            ) : (
+                                    <img src={post.display_url}
+                                        className="card-img" alt="post" />
+                                )
+                            }
                         </div>
                         <div className="card-body content-container">
                             <header className="card-header">
@@ -46,11 +57,17 @@ function Article(props) {
                                 </a>
                             </header>
                             <div className="reactions-container">
+                                {postCaption.map((caption) => {
+                                    return <Reaction picture={user.profilePicture} username={user.username} caption={caption.node.text} key={Math.random(1)} />
+                                })
+                                }
                                 {comment}
                             </div>
                             <div className="img-details-container">
                                 <p className="likes"><i className="fa fa-heart"></i> {post.edge_media_preview_like.count} likes</p>
-                                <p className="date-time">{timePost}</p>
+                                <p className="date-time">
+                                    {timePost}
+                                </p>
                             </div>
                         </div>
                     </article>

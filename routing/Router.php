@@ -11,7 +11,6 @@
  */
 include "./models/InstaGram.php";
 
-
 class Router
 {
 
@@ -23,17 +22,53 @@ class Router
 
         $route = explode('/', $url);
 
-        switch ($route[1]) {
-            case 'api':
-                $instagram = new InstaGram($_GET['username']);
-                $instagram->getMedia();
-                break;
+        /**
+         * Handle requests
+         */
+        if ($route[1] === 'api') {
 
-            default:
-                $error = ["error" => "route not found"];
-                die(json_encode($error));
-                break;
+            /**
+             * Check session
+             */
+            $instagram = new InstaGram($_GET['username']);
+
+            switch ($route[2]) {
+
+                case 'details':
+                    die($instagram->getUserdata());
+                    break;
+
+                case 'posts':
+                    die($instagram->getPosts());
+                    break;
+
+                case 'comments':
+                    die($instagram->getComments($route[3]));
+                    break;
+
+                case 'video':
+                    die($instagram->getVideo($route[3]));
+                    break;
+
+                case 'info':
+                    die(json_encode([
+                        "title" => "Giving information about the active API routes",
+                        "active_routes" => [
+                            "get_user_details" => "/api/details/?username=<username>",
+                            "get_user_posts" => "/api/posts/?username=<username>",
+                            "get_post_comments" => "/api/comments/<shortcode>/?username=<username>",
+                            "post_video_url" => "/api/video/<shortcode>/?username=<username>"
+                        ]
+                    ]));
+                    break;
+
+                default:
+                    die(json_encode(["error" => "this request is not valid! Check /info for more information"]));
+                    break;
+            }
+        } else {
+
+            die(json_encode(["error" => "this request is not valid! Check /info for more information"]));
         }
-
     }
 }

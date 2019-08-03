@@ -13,6 +13,7 @@ class ProfilePage extends Component {
         this.state = {
             userData: '',
             userMedia: '',
+            postCaption: '',
             searched: false
         }
 
@@ -25,41 +26,49 @@ class ProfilePage extends Component {
         event.preventDefault();
         let searchField = document.querySelector('input');
 
-        axios(`https://instagram.acdaling.nl/api/?username=${searchField.value}`)
+        axios(`https://instagram.acdaling.nl/api/details/?username=${searchField.value}`)
             .then((response) => {
                 this.setState({
                     userData: response.data.userData,
-                    userMedia: response.data.media,
                     searched: true
                 });
+                // console.log(response.data);
+            });
+
+        axios(`https://instagram.acdaling.nl/api/posts/?username=${searchField.value}`)
+            .then((response) => {
+                this.setState({
+                    content: response.data
+                })
+                // console.log(response.data);
             });
     }
 
-
     render() {
         let userData = this.state.userData;
-        let userMedia = this.state.userMedia;
-        let posts;
-        
+        let posts = (this.state.content) ? this.state.content : "";
+
         /**
          * This needs to be patched
          * 
          * crashed if account doesn't exist
          */
-        if (userMedia.length > 0) {
-
-            posts = userMedia.map((media) => {
-                return <ContentCard img={media} user={userData} key={media.node.id} />
-            });
-
-        } else {
-
+        if (userData && posts.length < 1) {
             posts = (
                 <div className="col-12">
                     <h4 className="text-center">Private account</h4>
                 </div>
             )
-
+        } else if (userData && posts.length > 0) {
+            posts = this.state.content.map(media => {
+                return <ContentCard img={media} user={userData} postCaption={media.node.edge_media_to_caption.edges} key={media.node.id} />
+            })
+        } else {
+            posts = (
+                <div className="col-12">
+                    <h4 className="text-center">Account doesn't exist</h4>
+                </div>
+            )
         }
 
         return (

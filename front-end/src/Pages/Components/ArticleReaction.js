@@ -2,7 +2,7 @@ import React from 'react';
 
 
 /**
- * This is a class that will be representing the comments 
+ * This is a class that will be representing a comment
  * added to posts
  * 
  * @param {*} props 

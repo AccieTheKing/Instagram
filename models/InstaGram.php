@@ -12,7 +12,6 @@
  */
 include 'AppContainer.php';
 
-
 class InstaGram
 {
     private $user;
@@ -26,13 +25,38 @@ class InstaGram
     }
 
     /**
-     * contains media
+     * contains userdata
      */
-    public function getMedia()
+    public function getUserdata()
     {
 
-        header('Access-Control-Allow-Origin: *');
-        header('Content-Type: application/json');
-        die($this->container->getMedia());
+        return ($this->container->getUserdata());
+    }
+
+    /**
+     * Containts the pictures
+     */
+    public function getPosts()
+    {
+
+        return ($this->container->getPosts());
+    }
+
+    /**
+     * contains videos
+     */
+    public function getVideo($shortcode)
+    {
+
+        return ($this->container->getVideo($shortcode));
+    }
+
+    /**
+     * Contains the comments
+     */
+    public function getComments($shortcode)
+    {
+
+        return ($this->container->getComments($shortcode));
     }
 }
