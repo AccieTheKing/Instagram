@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import ProfileHeader from './Components/ProfileHeader';
-import ContentCard from './Components/ContentCard';
-import ProfilepagePlaceholder from './Components/ProfilepagePlaceholder';
+import { Post } from './Components/Post';
+import { PlaceHolder, Header } from './Components/Profile/';
 
-class ProfilePage extends Component {
+
+export default class ProfilePage extends Component {
 
     constructor(props) {
         super(props);
@@ -61,7 +61,7 @@ class ProfilePage extends Component {
             )
         } else if (userData && posts.length > 0) {
             posts = this.state.content.map(media => {
-                return <ContentCard img={media} user={userData} postCaption={media.node.edge_media_to_caption.edges} key={media.node.id} />
+                return <Post img={media} user={userData} postCaption={media.node.edge_media_to_caption.edges} key={media.node.id} />
             })
         } else {
             posts = (
@@ -104,14 +104,14 @@ class ProfilePage extends Component {
                 <div id="profile_page">
                     {this.state.searched ? (
                         <div>
-                            <ProfileHeader userdata={userData} />
+                            <Header userdata={userData} />
                             <div className="container">
                                 <div className="row">
                                     {posts}
                                 </div>
                             </div>
                         </div>
-                    ) : (<ProfilepagePlaceholder />)
+                    ) : (<PlaceHolder />)
                     }
                 </div>
                 {/* END OF THE PROFILE PAGE */}
@@ -120,5 +120,3 @@ class ProfilePage extends Component {
     }
 
 }
-
-export default ProfilePage;
