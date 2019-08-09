@@ -19,11 +19,19 @@ export default class ProfilePage extends Component {
 
     }
 
+    componentWillReceiveProps() {
+        return (
+            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        )
+    }
+
+
     /**
      * make API call after inputfield is submited
      */
     submit = (event) => {
         event.preventDefault();
+        this.setState({ userdata: "" });
         let searchField = document.querySelector('input');
 
         axios(`https://instagram.acdaling.nl/api/details/?username=${searchField.value}`)
@@ -103,14 +111,14 @@ export default class ProfilePage extends Component {
                 {/* PROFILE PAGE */}
                 <div id="profile_page">
                     {this.state.searched ? (
-                        <div>
+                        <Fragment>
                             <Header userdata={userData} />
                             <div className="container">
                                 <div className="row">
                                     {posts}
                                 </div>
                             </div>
-                        </div>
+                        </Fragment>
                     ) : (<PlaceHolder />)
                     }
                 </div>

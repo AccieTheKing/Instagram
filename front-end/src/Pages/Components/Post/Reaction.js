@@ -19,9 +19,7 @@ const Reaction = (props) => {
                     className="profile-pic" />
             </span>
             <p>
-                <a href="epmty" className="username-reaction-link">
-                    <span className="username-badge">{username}</span>
-                </a>
+            <span className="username-badge">{username}</span>
                 {caption}
             </p>
 
