@@ -10,6 +10,7 @@
  * imports
  */
 include "./models/InstaGram.php";
+include "./routing/routes.php";
 
 class Router
 {
@@ -19,56 +20,22 @@ class Router
      */
     public static function Routing($url)
     {
-
         $route = explode('/', $url);
 
-        /**
-         * Handle requests
-         */
-        if ($route[1] === 'api') {
+        foreach (Routes::getRoutes() as $path) {
+            if ($route[1] === 'api') {
+                $instagram = new InstaGram($_GET['username']);
 
-            /**
-             * Check session
-             */
-            $instagram = new InstaGram($_GET['username']);
+                if(array_key_exists($route[2], Routes::getRoutes())){
+                    die($instagram->{Routes::getRoutes()[$route[2]]["method"]}($route[3]));
+                }else{
+                    die(json_encode(Routes::getRoutes()["error"]));
+                }
 
-            switch ($route[2]) {
+            } else {
 
-                case 'details':
-                    die($instagram->getUserdata());
-                    break;
-
-                case 'posts':
-                    die($instagram->getPosts());
-                    break;
-
-                case 'comments':
-                    die($instagram->getComments($route[3]));
-                    break;
-
-                case 'video':
-                    die($instagram->getVideo($route[3]));
-                    break;
-
-                case 'info':
-                    die(json_encode([
-                        "title" => "Giving information about the active API routes",
-                        "active_routes" => [
-                            "get_user_details" => "/api/details/?username=<username>",
-                            "get_user_posts" => "/api/posts/?username=<username>",
-                            "get_post_comments" => "/api/comments/<shortcode>/?username=<username>",
-                            "post_video_url" => "/api/video/<shortcode>/?username=<username>"
-                        ]
-                    ]));
-                    break;
-
-                default:
-                    die(json_encode(["error" => "this request is not valid! Check /info for more information"]));
-                    break;
+                die(json_encode(Routes::getRoutes()["error"]));
             }
-        } else {
-
-            die(json_encode(["error" => "this request is not valid! Check /info for more information"]));
         }
     }
 }

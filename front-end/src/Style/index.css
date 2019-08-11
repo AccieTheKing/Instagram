@@ -194,6 +194,12 @@
   border: solid 1px #dbdbdb;
 }
 
+@media (max-width: 1199px) {
+  #header .search-container .search-placeholder {
+    display: none;
+  }
+}
+
 #header .search-container .search-placeholder span {
   text-align: center;
 }

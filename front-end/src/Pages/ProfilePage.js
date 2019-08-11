@@ -19,13 +19,6 @@ export default class ProfilePage extends Component {
 
     }
 
-    componentWillReceiveProps() {
-        return (
-            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-        )
-    }
-
-
     /**
      * make API call after inputfield is submited
      */
@@ -48,7 +41,7 @@ export default class ProfilePage extends Component {
                 this.setState({
                     content: response.data
                 })
-                // console.log(response.data);
+                console.log(response.data);
             });
     }
 
@@ -56,12 +49,7 @@ export default class ProfilePage extends Component {
         let userData = this.state.userData;
         let posts = (this.state.content) ? this.state.content : "";
 
-        /**
-         * This needs to be patched
-         * 
-         * crashed if account doesn't exist
-         */
-        if (userData && posts.length < 1) {
+        if (userData && posts.length === 0) {
             posts = (
                 <div className="col-12">
                     <h4 className="text-center">Private account</h4>
@@ -71,12 +59,6 @@ export default class ProfilePage extends Component {
             posts = this.state.content.map(media => {
                 return <Post img={media} user={userData} postCaption={media.node.edge_media_to_caption.edges} key={media.node.id} />
             })
-        } else {
-            posts = (
-                <div className="col-12">
-                    <h4 className="text-center">Account doesn't exist</h4>
-                </div>
-            )
         }
 
         return (
@@ -96,8 +78,6 @@ export default class ProfilePage extends Component {
                             </div>
                             <div className="col-12 col-md-4">
                                 <div className="search-container">
-                                    <span className="fa fa-search icon icon-left"></span>
-                                    <span className="fa fa-times  icon icon-right"></span>
                                     <input type="text" name="username" autoComplete="off" className="form-control" placeholder="search here" />
                                     <div className="search-placeholder" role="button">
                                         <span><i className="fa fa-search"></i> Search</span>
@@ -125,6 +105,7 @@ export default class ProfilePage extends Component {
                 {/* END OF THE PROFILE PAGE */}
             </Fragment>
         )
+
     }
 
 }
