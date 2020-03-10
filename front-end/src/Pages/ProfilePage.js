@@ -27,7 +27,7 @@ export default class ProfilePage extends Component {
         this.setState({ userdata: "" });
         let searchField = document.querySelector('input');
 
-        axios(`https://instagram.acdaling.nl/api/details/?username=${searchField.value}`)
+        axios(`https://projects.acdaling.nl/instagram/api/details/?username=${searchField.value}`)
             .then((response) => {
                 this.setState({
                     userData: response.data.userData,
@@ -36,7 +36,7 @@ export default class ProfilePage extends Component {
                 // console.log(response.data);
             });
 
-        axios(`https://instagram.acdaling.nl/api/posts/?username=${searchField.value}`)
+        axios(`https://projects.acdaling.nl/instagram/api/posts/?username=${searchField.value}`)
             .then((response) => {
                 this.setState({
                     content: response.data

@@ -28,7 +28,7 @@ export default class Post extends Component {
          * check if there are any comments
          */
         if (post.edge_media_to_comment.count > 0) {
-            axios(`https://instagram.acdaling.nl/api/comments/${post.shortcode}/?username=nikisoedito.art`).then((response) => {
+            axios(`https://projects.acdaling.nl/instagram/api/comments/${post.shortcode}/?username=nikisoedito.art`).then((response) => {
                 this.setState({ comments: response.data });
             });
         }
@@ -37,7 +37,7 @@ export default class Post extends Component {
          * Check if the content is a video, then fetch the display url
          */
         if (post.__typename === "GraphVideo") {
-            axios(`https://instagram.acdaling.nl/api/video/${post.shortcode}/?username=nikisoedito.art`).then((response) => {
+            axios(`https://projects.acdaling.nl/instagram/api/video/${post.shortcode}/?username=nikisoedito.art`).then((response) => {
                 this.setState({ videoURL: response.data });
             });
         }

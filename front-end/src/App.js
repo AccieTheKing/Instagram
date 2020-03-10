@@ -10,13 +10,13 @@ import ProfilePage from './Pages/ProfilePage';
 function App() {
     return (
         <Fragment>
-            <Router>
+            <Router basename={'/instagram'}>
                 <AnimatedSwitch
                     atEnter={{ opacity: 0 }}
                     atLeave={{ opacity: 0 }}
                     atActive={{ opacity: 1 }}
                     className="switch-wrapper">
-                    
+
                     <Route path="/" exact component={Homepage} />
                     <Route path="/search" component={ProfilePage} />
                     {/* <Route path={} component={}/> * should be the error component */}
